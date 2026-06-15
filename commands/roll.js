@@ -1,6 +1,8 @@
 export async function rollTheDice(interaction){
     const rollType = interaction.options.getString('type');
 
+    console.log("Roll initiated for "+ rollType + "...")
+
     if (rollType === 'coin') {
         const outcome = Math.random() < 0.5 ? '🪙 **Fej**' : '🪙 **Írás**';
         return await interaction.reply(`${outcome}`);

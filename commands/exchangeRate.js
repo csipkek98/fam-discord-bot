@@ -5,6 +5,7 @@ export async function getExchangeRate(interaction){
     await interaction.deferReply();
 
     try {
+        console.log("Gathering exchange rate data for "+ baseCurrency + "...")
         // Using a reliable open currency API
         const response = await fetch(`https://open.er-api.com/v6/latest/${baseCurrency}`);
         const data = await response.json();

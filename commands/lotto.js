@@ -1,6 +1,8 @@
 export async function generateLottoNumbers(interaction){
     const lottoType = interaction.options.getString('típus');
 
+    console.log("Generating lotto numbers for "+ lottoType + " lotto ...")
+
     let count = 5;
     let max = 90;
     let gameName = 'Ötös lottó';

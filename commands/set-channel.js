@@ -3,6 +3,8 @@ import * as helper from '../helper.js'
 export async function setDefaultNotificationChannel(interaction){
     const selectedChannel = interaction.options.getChannel('target');
 
+    console.log("Channel set initiated for target: "+selectedChannel)
+
     if (!selectedChannel.isTextBased()) {
         return await interaction.reply({
             content: '❌ Kérlek válassz egy létező **Chat szobát**.',
