@@ -72,11 +72,17 @@ const rest = new REST({ version: '10' }).setToken(process.env.DISCORD_TOKEN);
 (async () => {
     try {
         console.log('Refreshing slash (/) commands...');
+        // Get all discord server
 
-        await rest.put(
-            Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, process.env.DISCORD_SERVER_ID),
-            { body: commands },
-        );
+        var servers = process.env.DISCORD_SERVER_ID.split(",")
+
+        console.log("Number of servers: "+ servers.length)
+        for(var i = 0; i < servers.length; i++){
+            await rest.put(
+                Routes.applicationGuildCommands(process.env.DISCORD_CLIENT_ID, servers[i]),
+                { body: commands },
+            );
+        }
 
         console.log('Successfully reloaded slash (/) commands.');
     } catch (error) {
