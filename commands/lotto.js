@@ -26,5 +26,5 @@ export async function generateLottoNumbers(interaction){
     const sortedNumbers = Array.from(luckyNumbers).sort((a, b) => a - b);
 
     // Format and send the response
-    return `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(', ')} \nSok szerencsét! 🤞`;
+    return await interaction.reply( `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(', ')} \nSok szerencsét! 🤞`);
 }
