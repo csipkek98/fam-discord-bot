@@ -9,48 +9,52 @@ const YTDlpWrap = YTDlpWrapModule.default;
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 
-// --- DYNAMIC PATH SELECTION ---
-// If running inside Linux/Docker, use the global production binary path.
-// Otherwise, on your Windows desktop, fall back to your local path folder.
 const isDocker = process.platform === 'linux';
-const exePath = isDocker
-    ? 'yt-dlp'
-    : path.resolve(__dirname, '..', 'yt-dlp.exe');
-
-// Initialize the wrapper with the dynamically selected path configuration
+const exePath = isDocker ? 'yt-dlp' : path.resolve(__dirname, '..', 'yt-dlp.exe');
 const ytDlpWrap = new YTDlpWrap(exePath);
 
-export async function extractVideoLink(interaction) {
-    const targetUrl = interaction.options.getString('url');
-    await interaction.deferReply();
+// Define a unified temporary folder path at the project root level
+const tempDir = path.resolve(__dirname, '..', 'temp');
 
-    const tempFilename = `video_${Date.now()}.mp4`;
-    const tempFilePath = path.resolve(__dirname, '..', tempFilename);
+export async function extractVideoLink(interaction) {
+    try {
+        await interaction.deferReply();
+    } catch (deferError) {
+        console.error('⚠️ Failed to defer interaction:', deferError.message);
+        return;
+    }
+
+    // Ensure the temp directory exists before starting any download stream
+    if (!fs.existsSync(tempDir)) {
+        fs.mkdirSync(tempDir, { recursive: true });
+    }
+
+    const targetUrl = interaction.options.getString('url');
+    const timestamp = Date.now();
+
+    // Save files directly into the isolated temp folder
+    const tempFilename = `video_${timestamp}.mp4`;
+    const tempFilePath = path.join(tempDir, tempFilename);
 
     try {
-        console.log(`Fetching metadata first for title allocation...`);
+        console.log(`Fetching metadata cleanly using raw execution...`);
 
-        // 1. Grab the metadata object to isolate the title string
-        let videoData = await ytDlpWrap.getVideoInfo([
+        let stdout = await ytDlpWrap.execPromise([
             targetUrl,
             '--dump-json',
             '--no-warnings'
         ]);
 
-        if (typeof videoData === 'string') {
-            videoData = JSON.parse(videoData);
-        }
-
-        // Fallback to 'Letöltött Videó' if the platform doesn't provide a clean title
+        let videoData = JSON.parse(stdout);
         const extractedTitle = videoData.title || 'Letöltött Videó';
 
-        console.log(`Starting local video download to: ${tempFilePath}`);
+        console.log(`Title allocated: "${extractedTitle}". Downloading to temp directory...`);
 
-        // 2. Download the video directly to disk
         await ytDlpWrap.execPromise([
             targetUrl,
             '-o', tempFilePath,
-            '-f', 'b[ext=mp4]/b',
+            '-f', 'bv+ba/b',
+            '--remux-video', 'mp4',
             '--no-warnings'
         ]);
 
@@ -63,41 +67,46 @@ export async function extractVideoLink(interaction) {
         console.log(`Download finished. File size: ${fileSizeInMB.toFixed(2)} MB`);
 
         if (fileSizeInMB > 25) {
-            if (fs.existsSync(tempFilePath)) fs.unlinkSync(tempFilePath);
             return await interaction.editReply({
-                content: '❌ A videó mérete meghaladja a Discord feltöltési korlátját (10MB/25MB).'
+                content: '❌ A videó mérete meghaladja a Discord feltöltési korlátját (25MB).'
             });
         }
 
         const videoAttachment = new AttachmentBuilder(tempFilePath, { name: 'video.mp4' });
 
-        // 3. Drop the exact dynamic title string into the text content block
         await interaction.editReply({
             content: `🎬 **${extractedTitle}**`,
             files: [videoAttachment]
         });
 
-        console.log(`Video file successfully delivered under title: "${extractedTitle}"`);
+        console.log(`Video file successfully delivered.`);
 
     } catch (error) {
         console.error('--- EXTRACTION CORE FAILURE ---');
-        if (error.stderr) {
-            console.error('yt-dlp output error:\n', error.stderr);
-        } else {
-            console.error('General error:', error);
-        }
+        console.error(error.stderr || error);
         console.error('--------------------------------');
 
-        await interaction.editReply({ content: '❌ Hiba történt a videó letöltése vagy feldolgozása során.' });
+        try {
+            await interaction.editReply({ content: '❌ Hiba történt a videó letöltése során.' });
+        } catch (msgError) {
+            console.error('Could not send error response:', msgError.message);
+        }
 
     } finally {
-        if (fs.existsSync(tempFilePath)) {
-            try {
-                fs.unlinkSync(tempFilePath);
-                console.log(`Temporary storage wiped: ${tempFilePath}`);
-            } catch (cleanupError) {
-                console.error('Failed to purge temporary file from directory:', cleanupError.message);
+        // --- COMPREHENSIVE TEMP PURGE ---
+        // Loops through the temp folder and deletes EVERYTHING inside it,
+        // ensuring no fragmented video or audio files are left behind.
+        try {
+            if (fs.existsSync(tempDir)) {
+                const files = fs.readdirSync(tempDir);
+                for (const file of files) {
+                    const fileToDelete = path.join(tempDir, file);
+                    fs.unlinkSync(fileToDelete);
+                    console.log(`🧹 Purged from temp sandbox: ${file}`);
+                }
             }
+        } catch (cleanupError) {
+            console.error('Failed running absolute folder sweep:', cleanupError.message);
         }
     }
 }
