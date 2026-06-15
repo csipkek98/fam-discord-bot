@@ -1,0 +1,7 @@
+node_modules
+config.json
+yt-dlp.exe
+.env
+.idea
+run.bat
+refresh-commands.bat
