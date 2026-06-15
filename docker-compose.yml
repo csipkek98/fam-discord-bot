@@ -2,11 +2,12 @@ version: '3.8'
 
 services:
   discord-bot:
+    # ADD THIS LINE: Tells compose exactly what to name the final image build
+    image: csipkek98/fam_discord_bot:latest
     build: .
     container_name: fam_discord_bot
     restart: unless-stopped
     volumes:
-      # Keeps your channel configuration settings safe on your hard drive
       - ./config.json:/app/config.json
     environment:
       - DISCORD_TOKEN=${DISCORD_TOKEN}
