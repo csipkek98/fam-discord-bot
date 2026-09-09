@@ -18,6 +18,8 @@ client.once('clientReady', (readyClient) => {
     cron.setCronJobs(client)
     console.log("~~~~~~~~")
     ytdlpCron.updateYtDlp()
+    console.log(">>>>>>>>>>>>>>>>>>>>>>>")
+    console.log("Discord Bot startup complete!")
 });
 
 // LISTEN FOR INTERACTIONS (SLASH COMMANDS)
