@@ -10,7 +10,7 @@ export function setCronjob(client){
     });
 }
 
-export function updateYtDlp() {
+export async function updateYtDlp() {
     exec('yt-dlp -U', (error, stdout, stderr) => {
         console.log('[Maintenance] Start yt-dlp update...');
         if (error) {

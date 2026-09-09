@@ -11,13 +11,13 @@ const client = new Client({
 });
 
 // START UP
-client.once('clientReady', (readyClient) => {
+client.once('clientReady', async (readyClient) => {
     console.log(`Logged in successfully as ${readyClient.user.tag}`);
     console.log('------');
     helper.loadConfig()
     cron.setCronJobs(client)
     console.log("~~~~~~~~")
-    ytdlpCron.updateYtDlp()
+    await ytdlpCron.updateYtDlp()
     console.log(">>>>>>>>>>>>>>>>>>>>>>>")
     console.log("Discord Bot startup complete!")
 });
