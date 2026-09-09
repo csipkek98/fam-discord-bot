@@ -3,6 +3,7 @@ const { Client, GatewayIntentBits, EmbedBuilder } = require('discord.js');
 const helper = require('./helper')
 const cron = require('./controllers/cronjob-controller')
 const cc = require('./controllers/command-controller')
+const ytdlpCron = require('./cronjobs/cron-yt-dlp')
 
 // Modern architecture requires only Guilds intent for slash commands
 const client = new Client({
@@ -16,6 +17,7 @@ client.once('clientReady', (readyClient) => {
     helper.loadConfig()
     cron.setCronJobs(client)
     console.log("~~~~~~~~")
+    ytdlpCron.updateYtDlp()
 });
 
 // LISTEN FOR INTERACTIONS (SLASH COMMANDS)
