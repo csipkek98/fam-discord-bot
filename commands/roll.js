@@ -1,4 +1,4 @@
-﻿import * as messagingController from '../controllers/messaging-controller.js';
+﻿import * as msgCtrl from '../controllers/messaging-controller.js';
 
 export async function rollTheDice(interaction){
     const rollType = interaction.options.getString("type");
@@ -7,12 +7,12 @@ export async function rollTheDice(interaction){
 
     if (rollType === "coin") {
         const outcome = Math.random() < 0.5 ? "🪙 **Fej**" : "🪙 **Írás**";
-        return await messagingController.sendMessageToInteraction(interaction, `${outcome}`);
+        return await msgCtrl.sendMsgToIntercation(interaction, `${outcome}`);
     }
 
     if (rollType === "d6") {
         const roll = Math.floor(Math.random() * 6) + 1;
-        return await messagingController.sendMessageToInteraction(interaction, `🎲 6 oldalú kocka dobás eredménye: **${roll}**`);
+        return await msgCtrl.sendMsgToIntercation(interaction, `🎲 6 oldalú kocka dobás eredménye: **${roll}**`);
     }
 
     if (rollType === "d20") {
@@ -20,7 +20,7 @@ export async function rollTheDice(interaction){
         let flavorText = "";
         if (roll === 20) flavorText = " 🔥 (Critical Success!)";
         if (roll === 1) flavorText = " 💀 (Critical Failure!)";
-        return await messagingController.sendMessageToInteraction(interaction, `🎲 20 oldalú kocka dobás eredménye: **${roll}**${flavorText}`);
+        return await msgCtrl.sendMsgToIntercation(interaction, `🎲 20 oldalú kocka dobás eredménye: **${roll}**${flavorText}`);
     }
 }
 

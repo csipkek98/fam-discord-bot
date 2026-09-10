@@ -1,4 +1,4 @@
-﻿import * as messagingController from '../controllers/messaging-controller.js';
+﻿import * as msgCtrl from '../controllers/messaging-controller.js';
 import * as helper from '../helper.js'
 
 export async function setDefaultNotificationChannel(interaction){
@@ -7,7 +7,7 @@ export async function setDefaultNotificationChannel(interaction){
     console.log("Channel set initiated for target: "+selectedChannel)
 
     if (!selectedChannel.isTextBased()) {
-        return await messagingController.sendMessageToInteraction(interaction, {
+        return await msgCtrl.sendMsgToIntercation(interaction, {
             content: '❌ Kérlek válassz egy létező **Chat szobát**.',
             ephemeral: true
         });
@@ -18,7 +18,7 @@ export async function setDefaultNotificationChannel(interaction){
     currentConfig.trackedChannelId = selectedChannel.id;
     helper.saveConfig(currentConfig);
 
-    await messagingController.sendMessageToInteraction(interaction, {
+    await msgCtrl.sendMsgToIntercation(interaction, {
         content: `✅ Alapértelmezett értesítési üzenet szoba sikeresen megváltoztatva ${selectedChannel}.`
     });
 }

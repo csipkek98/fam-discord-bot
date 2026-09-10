@@ -1,4 +1,4 @@
-﻿import * as messagingController from '../controllers/messaging-controller.js';
+﻿import * as msgCtrl from '../controllers/messaging-controller.js';
 export async function getExchangeRate(interaction){
     const baseCurrency = interaction.options.getString('currency');
 
@@ -15,17 +15,17 @@ export async function getExchangeRate(interaction){
             const hufRate = data.rates.HUF.toFixed(2);
             const lastUpdate = data.time_last_update_utc.substring(0, 16);
 
-            await messagingController.sendMessageToInteraction(interaction, 
+            await msgCtrl.sendMsgToIntercation(interaction,
                 `💱 **Jelenlegi árfolyam:**\n` +
                 `• **1 ${baseCurrency}** = **${hufRate} HUF**\n` +
                 `*Utolsó frissítés időpontja: ${lastUpdate} UTC*`
             );
         } else {
-            await messagingController.sendMessageToInteraction(interaction, '❌ API lekérdezés sikertelen.');
+            await msgCtrl.sendMsgToIntercation(interaction, '❌ API lekérdezés sikertelen.');
         }
     } catch (error) {
         console.error(error);
-        await messagingController.sendMessageToInteraction(interaction, '❌ Hiba történt a lekérdezés közben.');
+        await msgCtrl.sendMsgToIntercation(interaction, '❌ Hiba történt a lekérdezés közben.');
     }
 }
 

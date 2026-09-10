@@ -1,4 +1,4 @@
-﻿import * as messagingController from '../controllers/messaging-controller.js';
+﻿import * as msgCtrl from '../controllers/messaging-controller.js';
 import YTDlpWrapModule from 'yt-dlp-wrap';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -68,14 +68,14 @@ export async function extractVideoLink(interaction) {
         console.log(`Download finished. File size: ${fileSizeInMB.toFixed(2)} MB`);
 
         if (fileSizeInMB > 25) {
-            return await messagingController.sendMessageToInteraction(interaction, {
+            return await msgCtrl.sendMsgToIntercation(interaction, {
                 content: '❌ A videó mérete meghaladja a Discord feltöltési korlátját (25MB).'
             });
         }
 
         const videoAttachment = new AttachmentBuilder(tempFilePath, { name: 'video.mp4' });
 
-        await messagingController.sendMessageToInteraction(interaction, {
+        await msgCtrl.sendMsgToIntercation(interaction, {
             content: `🎬 **${extractedTitle}**`,
             files: [videoAttachment]
         });
@@ -86,9 +86,9 @@ export async function extractVideoLink(interaction) {
         console.error('--- EXTRACTION CORE FAILURE ---');
         console.error(error.stderr || error);
         console.error('--------------------------------');
-
         try {
-            await messagingController.sendMessageToInteraction(interaction, { content: '❌ Hiba történt a videó letöltése során.' });
+            await msgCtrl.sendMsgToIntercation(interaction, { content: '❌ Hiba történt a videó letöltése során.' });
+            await msgCtrl.sendMsgToAdmin(interaction, "❌ Hiba történt a videó letöltése során: \n"+interaction.options.getString('url'))
         } catch (msgError) {
             console.error('Could not send error response:', msgError.message);
         }

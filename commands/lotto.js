@@ -1,4 +1,4 @@
-﻿import * as messagingController from '../controllers/messaging-controller.js';
+﻿import * as msgCtrl from '../controllers/messaging-controller.js';
 
 export async function generateLottoNumbers(interaction){
     const lottoType = interaction.options.getString("típus");
@@ -28,6 +28,6 @@ export async function generateLottoNumbers(interaction){
     const sortedNumbers = Array.from(luckyNumbers).sort((a, b) => a - b);
 
     // Format and send the response
-    return await messagingController.sendMessageToInteraction(interaction, `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(", ")} \nSok szerencsét! 🤞`);
+    return await msgCtrl.sendMsgToIntercation(interaction, `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(", ")} \nSok szerencsét! 🤞`);
 }
 

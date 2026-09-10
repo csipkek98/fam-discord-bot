@@ -1,5 +1,6 @@
 import * as helper from '../helper.js'
 import {EmbedBuilder} from "discord.js";
+import * as msgCtrl from '../controllers/messaging-controller.js';
 
 export async function sendChoiceAlert(client) {
     try {
@@ -19,7 +20,7 @@ export async function sendChoiceAlert(client) {
                 .setTimestamp()
                 .setFooter({ text: 'Humble Choice Scheduled Notification Service' });
 
-            await targetChannel.send({ embeds: [choiceEmbed] });
+            await msgCtrl.sendMsgToDefChannel({ embeds: [choiceEmbed] });
             console.log('Humble Choice notification cleanly dispatched.');
         } else {
             console.error('⚠️ Could not send alert: Invalid channel ID or missing permissions.');
