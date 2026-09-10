@@ -13,8 +13,9 @@ export async function send(client, messageContent) {
 
         if (targetChannel && targetChannel.isTextBased()) {
             await targetChannel.send(messageContent);
+            console.log(`[Notify] Üzenet sikeresen elküldve a "${targetChannel.name}" csatornába (${targetChannel.id})`);
         } else {
-            console.error("[Notify] Érvénytelen szoba ID vagy hiányzó jogosultságok.");
+            console.error(`[Notify] Érvénytelen szoba ID (${targetChannelId}) vagy hiányzó jogosultságok.`);
         }
     } catch (error) {
         console.error(`[Notify] Nem sikerült elküldeni az üzenetet az alapértelmezett szobába: ${error.message}`);
