@@ -10,41 +10,41 @@ export async function humbleTest(interaction){
             await humble.sendChoiceAlert(interaction.client);
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "✅ Humble Choice értesítés sikeresen kiküldve!",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         } 
         else if (testType === "admin") {
             await messagingController.sendMsgToAdmin(interaction.client, "👑 Ez egy teszt üzenet a bot adminisztrátorának!");
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "✅ Teszt DM sikeresen elküldve az adminnak!",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         } 
         else if (testType === "defaultChannel") {
             await messagingController.sendMsgToDefChannel(interaction.client, "📢 Ez egy teszt üzenet az alapértelmezett értesítési csatornába!");
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "✅ Teszt üzenet sikeresen elküldve az alapértelmezett csatornába!",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         } 
         else if (testType === "sender") {
             await messagingController.sendMsgToSender(interaction, "✉️ Szia! Ez egy teszt DM üzenet neked, mivel te indítottad a parancsot.");
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "✅ Teszt DM sikeresen elküldve neked!",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         } 
         else if (testType === "interaction") {
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "⚡ Ez egy teszt válasz közvetlenül erre az interakcióra!",
-                ephemeral: true
+                flags: ['Ephemeral']
             });
         }
     } catch (error) {
         console.error(`[Test] Hiba történt a(z) "${testType}" teszt futtatása közben:`, error);
         await messagingController.sendMsgToIntercation(interaction, {
             content: `❌ Hiba történt a teszt futtatása közben: ${error.message}`,
-            ephemeral: true
+            flags: ['Ephemeral']
         }).catch(() => null);
     }
 }

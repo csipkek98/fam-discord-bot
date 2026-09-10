@@ -9,7 +9,7 @@ export async function setDefaultNotificationChannel(interaction){
     if (!selectedChannel.isTextBased()) {
         return await msgCtrl.sendMsgToIntercation(interaction, {
             content: '❌ Kérlek válassz egy létező **Chat szobát**.',
-            ephemeral: true
+            flags: ['Ephemeral']
         });
     }
 
