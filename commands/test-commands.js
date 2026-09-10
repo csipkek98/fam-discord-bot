@@ -6,7 +6,7 @@ export async function humbleTest(interaction){
     console.log("Test command fired with type: " + testType + "...")
     if (testType === "humble") {
         await humble.sendChoiceAlert(interaction.client);
-        await messagingController.sendMsgToAdmin(interaction, {
+        await messagingController.sendMsgToIntercation(interaction, {
             content: "✅ Humble Choice értesítés sikeresen kiküldve!",
             ephemeral: true
         });
