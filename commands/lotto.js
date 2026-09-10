@@ -1,17 +1,19 @@
-export async function generateLottoNumbers(interaction){
-    const lottoType = interaction.options.getString('típus');
+﻿import * as messagingController from '../controllers/messaging-controller.js';
 
-    console.log("Generating lotto numbers for "+ lottoType + " lotto ...")
+export async function generateLottoNumbers(interaction){
+    const lottoType = interaction.options.getString("típus");
+
+    console.log("Generating lotto numbers for " + lottoType + " lotto ...")
 
     let count = 5;
     let max = 90;
-    let gameName = 'Ötös lottó';
+    let gameName = "Ötös lottó";
 
     // Change rules dynamically if they selected Hatos lottó
-    if (lottoType === 'hatos') {
+    if (lottoType === "hatos") {
         count = 6;
         max = 45;
-        gameName = 'Hatos lottó';
+        gameName = "Hatos lottó";
     }
 
     const luckyNumbers = new Set();
@@ -26,5 +28,6 @@ export async function generateLottoNumbers(interaction){
     const sortedNumbers = Array.from(luckyNumbers).sort((a, b) => a - b);
 
     // Format and send the response
-    return await interaction.reply( `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(', ')} \nSok szerencsét! 🤞`);
+    return await messagingController.sendMessageToInteraction(interaction, `🎰 **${gameName} szerencseszámok:** ${sortedNumbers.join(", ")} \nSok szerencsét! 🤞`);
 }
+

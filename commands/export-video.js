@@ -1,3 +1,4 @@
+﻿import * as messagingController from '../controllers/messaging-controller.js';
 import YTDlpWrapModule from 'yt-dlp-wrap';
 import path from 'path';
 import { fileURLToPath } from 'url';
@@ -67,14 +68,14 @@ export async function extractVideoLink(interaction) {
         console.log(`Download finished. File size: ${fileSizeInMB.toFixed(2)} MB`);
 
         if (fileSizeInMB > 25) {
-            return await interaction.editReply({
+            return await messagingController.sendMessageToInteraction(interaction, {
                 content: '❌ A videó mérete meghaladja a Discord feltöltési korlátját (25MB).'
             });
         }
 
         const videoAttachment = new AttachmentBuilder(tempFilePath, { name: 'video.mp4' });
 
-        await interaction.editReply({
+        await messagingController.sendMessageToInteraction(interaction, {
             content: `🎬 **${extractedTitle}**`,
             files: [videoAttachment]
         });
@@ -87,7 +88,7 @@ export async function extractVideoLink(interaction) {
         console.error('--------------------------------');
 
         try {
-            await interaction.editReply({ content: '❌ Hiba történt a videó letöltése során.' });
+            await messagingController.sendMessageToInteraction(interaction, { content: '❌ Hiba történt a videó letöltése során.' });
         } catch (msgError) {
             console.error('Could not send error response:', msgError.message);
         }
@@ -110,3 +111,4 @@ export async function extractVideoLink(interaction) {
         }
     }
 }
+
