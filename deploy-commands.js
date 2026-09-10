@@ -1,4 +1,4 @@
-require('dotenv').config();
+﻿require('dotenv').config();
 const { REST, Routes, SlashCommandBuilder, PermissionFlagsBits } = require('discord.js');
 
 // 1. Define your slash command structures
@@ -11,7 +11,11 @@ const commands = [
                 .setDescription('Válassz tesztet!')
                 .setRequired(true)
                 .addChoices(
-                    {name: 'Humble Bundle értesítés teszt', value: 'humble'}
+                    {name: 'Humble Bundle értesítés teszt', value: 'humble'},
+                    {name: 'Admin DM teszt', value: 'admin'},
+                    {name: 'Alapértelmezett csatorna teszt', value: 'defaultChannel'},
+                    {name: 'Küldő DM teszt', value: 'sender'},
+                    {name: 'Interakció válasz teszt', value: 'interaction'}
                 ))
         .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
     new SlashCommandBuilder()
