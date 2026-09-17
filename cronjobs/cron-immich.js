@@ -1,6 +1,6 @@
 import cron from 'node-cron';
 import * as immich from '../commands/immich.js';
-import * as helper from "../helper";
+import * as helper from "../helper.js";
 
 // Időzítés: Minden nap 20-kor ellenőrzi
 export function setCronjob(client) {
