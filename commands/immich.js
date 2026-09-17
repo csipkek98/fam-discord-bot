@@ -12,7 +12,7 @@ export async function checkImmichUpdates(client) {
         console.log("Checking for Immich updates...");
         const config = helper.loadConfig();
         // Tároló a legutóbbi verziónak (első indításkor érdemes beállítani a jelenlegit vagy null-t)
-        let lastSeenVersion = config.immichUsedVersion || null;
+        let lastSeenVersion = config.immichUsedVersion;
 
         const response = await fetch(IMMICH_REPO_API, {
             headers: {
