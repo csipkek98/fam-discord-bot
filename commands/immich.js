@@ -52,7 +52,7 @@ export async function checkImmichUpdates(client) {
                 .setColor(0x4285F4)
                 .setTimestamp(new Date(data.published_at));
 
-            await msgCtrl.sendMsgToAdmin(client.client, { embeds: [embed] })
+            await msgCtrl.sendMsgToAdmin(client, { embeds: [embed] })
         }
     } catch (error) {
         console.error('Hiba az Immich frissítések ellenőrzésekor:', error);
