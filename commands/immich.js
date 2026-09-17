@@ -2,9 +2,7 @@ import {EmbedBuilder} from "discord.js";
 import * as msgCtrl from "../controllers/messaging-controller.js";
 import * as helper from "../helper.js";
 
-const config = helper.loadConfig();
-// Tároló a legutóbbi verziónak (első indításkor érdemes beállítani a jelenlegit vagy null-t)
-let lastSeenVersion = config.immichUsedVersion || null;
+
 
 const IMMICH_REPO_API = 'https://api.github.com/repos/immich-app/immich/releases/latest';
 
@@ -12,6 +10,10 @@ const IMMICH_REPO_API = 'https://api.github.com/repos/immich-app/immich/releases
 export async function checkImmichUpdates(client) {
     try {
         console.log("Checking for Immich updates...");
+        const config = helper.loadConfig();
+        // Tároló a legutóbbi verziónak (első indításkor érdemes beállítani a jelenlegit vagy null-t)
+        let lastSeenVersion = config.immichUsedVersion || null;
+
         const response = await fetch(IMMICH_REPO_API, {
             headers: {
                 'User-Agent': 'DiscordBot-UpdateNotifier',
@@ -35,8 +37,9 @@ export async function checkImmichUpdates(client) {
         // Ha új verzió jelent meg
         console.log("Current version on github: "+lastSeenVersion)
         if (latestVersion !== lastSeenVersion) {
+            config.immichUsedVersion = latestVersion;
+            helper.saveConfig(config);
             console.log("Version is updated! Sending notification to admin...")
-            lastSeenVersion = latestVersion;
 
             const embed = new EmbedBuilder()
                 .setTitle(`🚀 Új Immich frissítés érhető el: ${latestVersion}`)

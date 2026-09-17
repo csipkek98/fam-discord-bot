@@ -4,7 +4,7 @@ import * as helper from '../helper.js';
 
 // Időzítés: Minden nap 20-kor ellenőrzi
 export function setCronjob(client) {
-
+    console.log("Immich update checker cron job initiation");
     cron.schedule('0 20 * * *', async () => {
         console.log('[Maintenance] Checking for Immich updates...');
         const config = helper.loadConfig();
