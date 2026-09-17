@@ -10,7 +10,7 @@ export async function setImmichUpdateNotification(interaction){
     currentConfig.immichUpdateNotification = needNotify;
     helper.saveConfig(currentConfig);
 
-    await msgCtrl.sendMsgToAdmin(interaction, {
+    await msgCtrl.sendMsgToAdmin(interaction.client, {
         content: `✅ Immich update notification sikeresen ${needNotify ? "bekapcsolva" : "kikapcsolva"}.`
     });
 }

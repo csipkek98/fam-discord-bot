@@ -88,7 +88,7 @@ export async function extractVideoLink(interaction) {
         console.error('--------------------------------');
         try {
             await msgCtrl.sendMsgToIntercation(interaction, { content: '❌ Hiba történt a videó letöltése során.' });
-            await msgCtrl.sendMsgToAdmin(interaction, "❌ Hiba történt a videó letöltése során: \n"+interaction.options.getString('url'))
+            await msgCtrl.sendMsgToAdmin(interaction.client, "❌ Hiba történt a videó letöltése során: \n"+interaction.options.getString('url'))
         } catch (msgError) {
             console.error('Could not send error response:', msgError.message);
         }
