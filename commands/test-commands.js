@@ -1,7 +1,8 @@
 ﻿import * as humble from "./humble.js";
 import * as messagingController from "../controllers/messaging-controller.js";
+import * as immich from "./immich.js";
 
-export async function humbleTest(interaction){
+export async function testCommands(interaction){
     const testType = interaction.options.getString("type");
     console.log("Test command fired with type: " + testType + "...")
 
@@ -37,6 +38,13 @@ export async function humbleTest(interaction){
         else if (testType === "interaction") {
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "⚡ Ez egy teszt válasz közvetlenül erre az interakcióra!",
+                flags: ['Ephemeral']
+            });
+        }
+        else if (testType === "immichUpdateNotification") {
+            await immich.checkImmichUdpate(interaction.client);
+            await messagingController.sendMsgToIntercation(interaction, {
+                content: "✅ Immich update értesítés sikeresen kiküldve!",
                 flags: ['Ephemeral']
             });
         }

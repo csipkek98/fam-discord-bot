@@ -21,7 +21,7 @@ export function loadConfig() {
         console.error('Error reading config.json, using defaults:', error);
     }
     // Fallback default structure if file reading fails
-    return { trackedChannelId: process.env.DISCORD_CHANNEL_ID || "" };
+    return { trackedChannelId: process.env.DISCORD_CHANNEL_ID, immichUsedVersion: "", immichUpdateNotification: "" || "" };
 }
 
 // Helper function to save configuration safely to disk

@@ -12,6 +12,7 @@ const commands = [
                 .setRequired(true)
                 .addChoices(
                     {name: 'Humble Bundle értesítés teszt', value: 'humble'},
+                    {name: 'Immich frissítés értesítés teszt', value: 'immichUpdateNotification'},
                     {name: 'Admin DM teszt', value: 'admin'},
                     {name: 'Alapértelmezett csatorna teszt', value: 'defaultChannel'},
                     {name: 'Küldő DM teszt', value: 'sender'},
@@ -66,7 +67,15 @@ const commands = [
         .addStringOption(option =>
             option.setName('url')
                 .setDescription('Az url a videóhoz')
+                .setRequired(true)),
+    new SlashCommandBuilder()
+        .setName('immich-update-notification')
+        .setDescription('Be illetve kikapcsolható az Immich update notification értesítő')
+        .addBooleanOption(option =>
+            option.setName('needNotify')
+                .setDescription('Igen vagy nem')
                 .setRequired(true))
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
 ].map(command => command.toJSON());
 
 // 2. Prepare the REST manager

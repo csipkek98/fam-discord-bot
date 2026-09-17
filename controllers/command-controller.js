@@ -10,7 +10,7 @@ export async function handleCommand(interaction){
     const { commandName } = interaction;
 
     if (commandName === 'test') {
-        await tests.humbleTest(interaction)
+        await tests.testCommands(interaction)
     }
 
     if (commandName === 'lotto') {
