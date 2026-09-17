@@ -11,6 +11,7 @@ const IMMICH_REPO_API = 'https://api.github.com/repos/immich-app/immich/releases
 
 export async function checkImmichUpdates(client) {
     try {
+        console.log("Checking for Immich updates...");
         const response = await fetch(IMMICH_REPO_API, {
             headers: {
                 'User-Agent': 'DiscordBot-UpdateNotifier',
@@ -30,7 +31,10 @@ export async function checkImmichUpdates(client) {
         }
 
         // Ha új verzió jelent meg
+        console.log("latestVersion: "+latestVersion)
+        console.log("lastSeenVersion: "+lastSeenVersion)
         if (latestVersion !== lastSeenVersion) {
+            console.log("Version is updated! Sending notification to admin...")
             lastSeenVersion = latestVersion;
 
             const embed = new EmbedBuilder()
