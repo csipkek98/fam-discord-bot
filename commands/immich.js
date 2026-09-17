@@ -1,5 +1,6 @@
 import {EmbedBuilder} from "discord.js";
 import * as msgCtrl from "../controllers/messaging-controller.js";
+import * as helper from "../helper.js";
 
 const config = helper.loadConfig();
 // Tároló a legutóbbi verziónak (első indításkor érdemes beállítani a jelenlegit vagy null-t)

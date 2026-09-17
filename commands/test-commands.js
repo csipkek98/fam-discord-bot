@@ -42,7 +42,7 @@ export async function testCommands(interaction){
             });
         }
         else if (testType === "immichUpdateNotification") {
-            await immich.checkImmichUdpate(interaction.client);
+            await immich.checkImmichUpdates(interaction.client);
             await messagingController.sendMsgToIntercation(interaction, {
                 content: "✅ Immich update értesítés sikeresen kiküldve!",
                 flags: ['Ephemeral']
