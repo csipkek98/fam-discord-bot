@@ -1,6 +1,10 @@
 export async function send(client, messageContent) {
     const adminId = process.env.ADMIN_USER_ID;
-    if (!adminId) return;
+    if (!adminId){
+        console.log("[Notify] NO ADMIN ID SET!")
+        console.log("[Notify] adminId:", adminId)
+        return;
+    }
 
     try {
         console.log("[Notify] MessageContent:", messageContent, " |")
