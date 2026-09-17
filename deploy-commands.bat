@@ -1,2 +1,2 @@
 node deploy-commands.js
-/k
+cmd /k

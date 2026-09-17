@@ -3,7 +3,7 @@ import * as helper from '../helper.js'
 
 export async function setImmichUpdateNotification(interaction){
     console.log("Immich auto update value change started")
-    let needNotify = interaction.options.getBoolean("needNotify");
+    let needNotify = interaction.options.getBoolean("need-notify");
 
     // Load, mutate state, and commit to disk
     const currentConfig = helper.loadConfig();

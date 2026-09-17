@@ -72,10 +72,10 @@ const commands = [
         .setName('immich-update-notification')
         .setDescription('Be illetve kikapcsolható az Immich update notification értesítő')
         .addBooleanOption(option =>
-            option.setName('needNotify')
+            option.setName('need-notify') // vagy 'need_notify' / 'notify'
                 .setDescription('Igen vagy nem')
                 .setRequired(true))
-        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator),
+        .setDefaultMemberPermissions(PermissionFlagsBits.Administrator)
 ].map(command => command.toJSON());
 
 // 2. Prepare the REST manager
