@@ -25,14 +25,15 @@ export async function checkImmichUpdates(client) {
         const latestVersion = data.tag_name; // pl. "v1.118.0"
 
         // Első futáskor csak elmentjük a verziót, hogy ne spammeljen azonnal
+        console.log("Latest version: "+latestVersion)
         if (!lastSeenVersion) {
-            lastSeenVersion = latestVersion;
+            config.immichUsedVersion = latestVersion;
+            helper.saveConfig(config);
             return;
         }
 
         // Ha új verzió jelent meg
-        console.log("latestVersion: "+latestVersion)
-        console.log("lastSeenVersion: "+lastSeenVersion)
+        console.log("Current version on github: "+lastSeenVersion)
         if (latestVersion !== lastSeenVersion) {
             console.log("Version is updated! Sending notification to admin...")
             lastSeenVersion = latestVersion;
