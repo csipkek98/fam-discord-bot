@@ -10,7 +10,8 @@ export async function setImmichUpdateNotification(interaction){
     currentConfig.immichUpdateNotification = needNotify;
     helper.saveConfig(currentConfig);
 
-    await msgCtrl.sendMsgToAdmin(interaction.client, {
-        content: `✅ Immich update notification sikeresen ${needNotify ? "bekapcsolva" : "kikapcsolva"}.`
+    return await msgCtrl.sendMsgToIntercation(interaction, {
+        content: `✅ Immich update notification sikeresen ${needNotify ? "bekapcsolva" : "kikapcsolva"}.`,
+        flags: ['Ephemeral']
     });
 }
