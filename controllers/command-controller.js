@@ -4,6 +4,7 @@ import * as exchange from '../commands/exchangeRate.js';
 import * as tests from '../commands/test-commands.js';
 import * as setChannel from '../commands/set-channel.js';
 import * as exporter from '../commands/export-video.js';
+import * as immichNotify from '../commands/set-immich-update-notification.js';
 
 export async function handleCommand(interaction){
 
@@ -31,5 +32,8 @@ export async function handleCommand(interaction){
     if (commandName === 'export') {
         await exporter.extractVideoLink(interaction);
     }
+
+    if(commandName === 'immich-update-notification')
+        await immichNotify.setImmichUpdateNotification(interaction);
 
 }
